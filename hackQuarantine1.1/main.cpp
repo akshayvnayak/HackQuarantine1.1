@@ -18,49 +18,49 @@ int main()
             goto nmkInput;
         }
         int C[N][K];
-        for(i=0;i<N;i++)
+        for(i=0;i<N;i++)                                     //Input of C[][] array
         {
             input:
             for(j=0;j<K;j++)
             {
                 cin>>C[i][j];
-                if(C[i][j]>M||C[i][j]<1)
+                if(C[i][j]>M||C[i][j]<1)                                //Input validation
                 {
                     cout<<"Invalid input!! Enter the line again.\n";
                     goto input;
                 }
             }
         }
-        bool arr[N][K];
-        int combinations=(int)pow(M,N);
-        int minValue[combinations];
-        for(a=0;a<combinations;a++)
+        bool correctBox[N][K];                 //This variable is used to store the boolean values. If the arm picks the correct box, then it will be 1 and vice versa.
+        int combinations=(int)pow(M,N); //This variable is used to store the number of combinations of the box number
+        int minValue[combinations];     //This variable will store the worst case value of each combination
+
+        for(a=0;a<combinations;a++)     //Loop for all the combinations
         {
-            for(i=0;i<N;i++)
+            for(i=0;i<N;i++)            //Loop to compute the correctBox array
                 for(j=0;j<K;j++)
-                    arr[i][j]=(C[i][j]==(((a/(int)pow(M,i))%M)+1));
-            minValue[a]=999999;
-            for(int y=0;y<K;y++)
+                    correctBox[i][j]=(C[i][j]==(((a/(int)pow(M,i))%M)+1));  // (a/(int)pow(M,i))%M)+1) This expression gives different combinations of the box number.
+            minValue[a]=999999;         //Initializing minValue with a large value
+            for(int y=0;y<K;y++)        //Loop for finding minValue[a]
             {
                 countt=0;
-                for(int x=0;x<N;x++)
-                    countt+=(int)arr[x][y];
-                if(countt<minValue[a])
+                for(int x=0;x<N;x++)        //Loop for counting the correct boxes selected
+                    countt+=(int)correctBox[x][y];
+                if(countt<minValue[a])      //Selecting the minimum value of count in the array
                     minValue[a]=countt;
             }
-//            cout<<"minValue["<<a<<"]="<<minValue[a]<<endl;
         }
-        int maximised=minValue[0],maxIndex=0;;
-        for(i=1;i<combinations;i++)
+        int maximised=minValue[0],maxIndex=0;   //Variables for optimizing the minValue array
+        for(i=1;i<combinations;i++)             //Loop to traverse all the combinations and to find the maximized minValue index
         {
-            if(minValue[i]>maximised)
+            if(minValue[i]>maximised)           //Chosing the maximized value and maximized index
             {
                 maximised=minValue[i];
                 maxIndex=i;
             }
         }
         cout<<endl;
-        for(i=0;i<N;i++)
+        for(i=0;i<N;i++)                        //Loop for displaying the maximized combination of output
             cout<<((maxIndex/(int)pow(M,i))%M)+1<<"\t";
         cout<<endl<<endl;
     }
