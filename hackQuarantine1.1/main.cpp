@@ -33,32 +33,37 @@ int main()
         }
         bool correctBox[N][K];                 //This variable is used to store the boolean values. If the arm picks the correct box, then it will be 1 and vice versa.
         int combinations=(int)pow(M,N); //This variable is used to store the number of combinations of the box number
-        int minValue[combinations];     //This variable will store the worst case value of each combination
+        int minValue,maximised=-1,maxIndex;     //This variable will store the worst case value of each combination
 
         for(a=0;a<combinations;a++)     //Loop for all the combinations
         {
             for(i=0;i<N;i++)            //Loop to compute the correctBox array
                 for(j=0;j<K;j++)
                     correctBox[i][j]=(C[i][j]==(((a/(int)pow(M,i))%M)+1));  // (a/(int)pow(M,i))%M)+1) This expression gives different combinations of the box number.
-            minValue[a]=999999;         //Initializing minValue with a large value
+            minValue=999999;         //Initializing minValue with a large value
             for(int y=0;y<K;y++)        //Loop for finding minValue[a]
             {
                 countt=0;
                 for(int x=0;x<N;x++)        //Loop for counting the correct boxes selected
                     countt+=(int)correctBox[x][y];
-                if(countt<minValue[a])      //Selecting the minimum value of count in the array
-                    minValue[a]=countt;
+                if(countt<minValue)//Selecting the minimum value of count in the array
+                    minValue=countt;
             }
-        }
-        int maximised=minValue[0],maxIndex=0;   //Variables for optimizing the minValue array
-        for(i=1;i<combinations;i++)             //Loop to traverse all the combinations and to find the maximized minValue index
-        {
-            if(minValue[i]>maximised)           //Chosing the maximized value and maximized index
+            if(minValue>maximised)
             {
-                maximised=minValue[i];
-                maxIndex=i;
+                maximised=minValue;
+                maxIndex=a;
             }
         }
+//        int maximised=minValue[0],maxIndex=0;   //Variables for optimizing the minValue array
+//        for(i=1;i<combinations;i++)             //Loop to traverse all the combinations and to find the maximized minValue index
+//        {
+//            if(minValue[i]>maximised)           //Choosing the maximized value and maximized index
+//            {
+//                maximised=minValue[i];
+//                maxIndex=i;
+//            }
+//        }
         cout<<endl;
         for(i=0;i<N;i++)                        //Loop for displaying the maximized combination of output
             cout<<((maxIndex/(int)pow(M,i))%M)+1<<"\t";
