@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1586963520 source:e:\my codes\c++\hackquarantine1.1\main.cpp
+	<iostream>
+	<math.h>
+
